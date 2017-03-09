@@ -1,4 +1,5 @@
 const stars = [];
+let angle = 0;
 
 function createStar(initialVectorMagnitude) {
     let offsetX = random(-width / 2, width / 2);
@@ -13,10 +14,27 @@ function createStar(initialVectorMagnitude) {
     return star;
 }
 
+function goFullScreen() {
+    let cs = document.getElementsByTagName("CANVAS");
+    if (cs && cs.length === 1) {
+        const canvas = cs[0];
+        if (canvas.requestFullScreen)
+            canvas.requestFullScreen();
+        else if (canvas.webkitRequestFullScreen)
+            canvas.webkitRequestFullScreen();
+        else if (canvas.mozRequestFullScreen)
+            canvas.mozRequestFullScreen();
+    }
+}
+
 function setup() {
     frameRate(15);
 
-    createCanvas(400, 400);
+    let c = createCanvas(1280, 720);
+    // console.log(c.canvas);
+button = createButton('click me');
+  button.mousePressed(goFullScreen);
+
     background(0);
 
     for (let i = 0; i < 150; i++) {
@@ -32,7 +50,7 @@ function draw() {
     fill(255);
 
     translate(width / 2, height / 2);
-
+    // rotate(angle+=0.01);
     for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
 
@@ -63,12 +81,12 @@ function Star(offsetX, offsetY, vectorMagnitude) {
 
     this.draw = function () {
         const pos = this.pos();
-        const size = map(this.vector.mag(), 0, 300, 0.5 * 2, 8 * 2);
+        const size = map(this.vector.mag(), 0, 300, 0.5 , 4);
         ellipse(pos.x, pos.y, size);
     };
 
     this.move = function () {
         this.vector.setMag(this.vector.mag() + 0.1);
-        this.vector.mult(1.05);
+        this.vector.mult(1.1);
     };
 };
