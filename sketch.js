@@ -70,6 +70,19 @@ function draw() {
 
 //class
 function Star(offsetX, offsetY, vectorMagnitude) {
+
+    function getRandomizedColor(){
+        const colors=[
+            color(255,149,0),
+            color(200,255,255),
+            color(255,0,0),
+            color(255,255,100),
+        ]
+
+        return colors[floor(random(0,colors.length))];
+    }
+
+    this.color = getRandomizedColor();
     this.offset = createVector(offsetX, offsetY);
     this.vector = vectorMagnitude ?
         this.offset.copy().normalize().mult(vectorMagnitude) :
@@ -81,8 +94,12 @@ function Star(offsetX, offsetY, vectorMagnitude) {
 
     this.draw = function () {
         const pos = this.pos();
-        const size = map(this.vector.mag(), 0, 300, 0.5 , 4);
+        const factor = 3;
+        const size = map(this.vector.mag(), 0, 300, 0.5 *factor, 4*factor);
+        push();
+        fill(this.color);
         ellipse(pos.x, pos.y, size);
+        pop();
     };
 
     this.move = function () {
